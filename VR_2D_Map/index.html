@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" media="screen" />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="js/index.js"></script>
+  <script>
+    $(function(){
+          $().timelinr({
+            arrowKeys: 'true'
+          })
+        });
+  </script>
+
+
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100; }
+    </style>
+</head>
+<body>
+
+<style>
+    .legend {
+        background-color: #d3d3d3;
+        border-radius: 3px;
+        bottom: 30px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        right: 10px;
+        z-index: 1;
+    }
+
+    .legend h4 {
+        margin: 0 0 10px;
+    }
+
+    .legend div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 5px;
+        width: 10px;
+    }
+
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+<!--Div for map-->
+<div id="video">
+<video width="100%" height="auto" autoplay="autoplay">
+  <source src="http://www.w3schools.com/tags/mov_bbb.mp4" type='video/ogg; codecs="theora, vorbis"'>
+</video>
+</div>
+
+<div id='map' style="display: none;"></div>
+
+<!--Div for legend-->
+<div id='state-legend' class='legend' style="display: none;">
+    <h3>Georgia State, US</h3>
+    <h4>Literacy Indicator</h4>
+    <div><span style='background-color: #FF0000'></span>1 - Low</div>
+    <div><span style='background-color: #008000'></span>2 - Medium</div>
+    <div><span style='background-color: #FFFF00'></span>3 - High</div>
+</div>
+
+<!--Div for timeline years-->
+ <div id="timeline" style="display: none;">
+    <ul id="dates">
+      <li><a href="#2011">2011</a></li>
+      <li><a href="#2012">2012</a></li>
+      <li><a href="#2013">2013</a></li>
+      <li><a href="#2014">2014</a></li>
+      <li><a href="#2015">2015</a></li>
+      <li><a href="#2016">2016</a></li>
+      <li><a href="#2017">2017</a></li>
+      <li><a href="#2018">2018</a></li>
+      <li><a href="#2019">2019</a></li>
+      <li><a href="#2020">2020</a></li>
+    </ul>
+    <!--<div id="grad_left"></div>
+    <div id="grad_right"></div>-->
+</div>
+<a-scene>
+    <!--<a-assets>
+        <a-asset-item id="georgia-obj" src="3DModel/Georgia.obj"></a-asset-item>
+        <a-asset-item id="georgia-mtl" src="3DModel/Georgia.mtl"></a-asset-item>
+    </a-assets>
+    <a-entity obj-model="obj: #georgia-obj; mtl: #georgia-mtl"></a-entity>-->
+    <!--<a-image id="image" geometry="width: 8; height: 4; depth: 3" rotation="0 0 0" position="-0.2 1.5 -3.5" src="" ></a-image>-->
+    <a-image id="image" width="160" height="120" position="-40 3 -75" src="" ></a-image>
+    <a-image id="timeline_Insights" width="60" height="60" position="70 25 -70.5" src="" ></a-image>
+    <!--<a-entity id="year" text="value: Hello World;" position="40 -60 -50"></a-entity>
+    <a-text value="Now Interactable" geometry="primitive:plane" position="40 -60 -50"></a-text>-->
+    <a-entity id="2011"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="-65 -30 -50"
+      text="value: 2011;">  
+      </a-entity>
+
+      <a-entity id="2012"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="-50 -30 -50"
+      text="value: 2012">  
+      </a-entity>
+
+      <a-entity id="2013"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="-35 -30 -50"
+      text="value: 2013"></a-entity>
+
+      <a-entity id="2014"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="-20 -30 -50"
+      text="value: 2014"></a-entity>
+
+      <a-entity id="2015"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="-5 -30 -50"
+      text="value: 2015"></a-entity>
+
+
+      <a-entity id="2016"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="10 -30 -50"
+      text="value: 2016"></a-entity>
+
+      <a-entity id="2017"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="25 -30 -50"
+      text="value: 2017"></a-entity>
+
+      <a-entity id="2018"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="40 -30 -50"
+      text="value: 2018"></a-entity>
+
+      <a-entity id="2019"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="55 -30 -50"
+      text="value: 2019"></a-entity>
+
+      <a-entity id="2020"
+      geometry="primitive: plane; width: 10; height: 5"
+      material="color: blue"
+      position="70 -30 -50"
+    text="value: 2020"></a-entity>
+</a-scene>
+
+<!-- code to download updated json file-->
+<div style="display: none;">
+<textarea id="textbox">Type something here</textarea> <button id="create">Create file</button> <a download="info.txt" id="downloadlink" style="display: none">Download</a>
+</div>
+<script>
+
+$('#video video').bind('ended', function(){
+   $(this).parent().fadeOut();
+   console.log("videso stopped");
+   $('#dates li').eq(0).find('a').trigger('click');
+});
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGFycnlyb2tpbjEzIiwiYSI6ImNqNzljMG9mcDAwNmsycm10Y2NjM3N1aHoifQ.BRQyZhWWp_bL3G5TYX6I8Q';
+var jsonDatafile = 'Geojson/georgia2011.geo.json';
+var previousyear = jsonDatafile;
+var previousSelectedYear = '2011';
+var firstload = 1;
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/harryrokin13/cj7a7l2ir8tm52rmt25oev61v',
+    center: [-82, 32.5],
+    zoom: 4.9,
+    minZoom: 4.7
+});
+$.getJSON(jsonDatafile, function(jsonData) {
+    map.on('load', function () {
+        // Add a layer showing the state polygons.
+        /*
+        map.addLayer({
+            'id': jsonDatafile,
+            'type': 'fill',
+            'source': {
+                'type': 'geojson',
+                'data': jsonData
+              },
+            'paint': {
+
+                'fill-color': {
+                    type: 'categorical',
+                    property: 'risk',
+                    stops: [
+                        ["1", '#FF0000'],
+                        ["2", '#008000'],
+                        ["3", '#FFFF00']
+                    ]
+                },
+                'fill-opacity': 1,
+                'fill-outline-color':'#000'
+            }, 
+        });    
+        var c = document.querySelector('#map canvas');
+        var img = c.toDataURL('image/png');
+        var texture = document.getElementById('image');
+        texture.setAttribute('src', img);*/
+        //document.getElementById('image').appendChild(texture);
+    });
+});
+
+/*code to download updated json
+$.getJSON(jsonDatafile, function(jsonData) {
+
+var iptr = 0;
+    while(iptr<jsonData.features.length)
+    {
+      if(iptr%4 == 0)
+      {
+        jsonData.features[iptr].properties["risk"] = "3"
+      }
+      else if(iptr%10 == 0)
+      {
+        jsonData.features[iptr].properties["risk"] = "1"
+      }
+      else
+      {
+        jsonData.features[iptr].properties["risk"] = "2"
+      }
+      iptr +=1;
+    }
+
+    var textFile = null,
+      makeTextFile = function (text) {
+        var data = new Blob([text], {type: 'text/plain'});
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+          window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        return textFile;
+      };
+
+
+      var create = document.getElementById('create'),
+        textbox = document.getElementById('textbox');
+
+      create.addEventListener('click', function () {
+        var link = document.getElementById('downloadlink');
+        link.href = makeTextFile(JSON.stringify(jsonData));
+        link.style.display = 'block';
+      }, false);
+
+});*/
+
+$('#dates a').click(function(event){
+            event.preventDefault();
+            // first vars
+            var selectedyear = $(this).text();
+            $('#dates a').removeClass('selected');
+            $(this).addClass('selected');
+            var currentJsonFile = 'Geojson/georgia'+selectedyear.trim()+'.geo.json';
+            loadMap(currentJsonFile,selectedyear);
+            //jsonData = 
+           // alert(currentJsonFile);
+});
+
+function loadMap(jsonfile, selectedyear){
+    console.log("in load map. counter: "+firstload);
+    if(firstload>10)
+    {
+        var visibility = map.getLayoutProperty(previousyear, 'visibility');
+
+        if (visibility === 'visible') 
+            map.setLayoutProperty(previousyear, 'visibility', 'none');
+    }
+
+    $.getJSON(jsonfile, function(jsonData) {
+
+        map.addLayer({
+            'id': jsonfile,
+            'type': 'fill',
+            'source': {
+                'type': 'geojson',
+                'data': jsonData
+              },
+            'paint': {
+
+                'fill-color': {
+                    type: 'categorical',
+                    property: 'risk',
+                    stops: [
+                        ["1", '#FF0000'],
+                        ["2", '#008000'],
+                        ["3", '#FFFF00']
+                    ]
+                },
+                'fill-opacity': 1,
+                'fill-outline-color':'#000'
+            }, 
+        }); 
+    
+        var c = document.querySelector('#map canvas');
+        var img = c.toDataURL('image/png');
+        var texture = document.getElementById('image');
+        texture.setAttribute('src', img);
+        var yeartexture = document.getElementById('timeline_Insights');
+        var yearImageloc = 'Timeline_Images/'+selectedyear+'.jpg';
+        yeartexture.setAttribute('src', yearImageloc);
+        if(firstload>1)
+        {
+            var year=document.getElementById(previousSelectedYear);
+           // var anim=document. createElement('a-animation');
+            year.removeAttribute('attribute');
+            //anim.setAttribute('to','2 2 2');
+            //year.appendChild(anim);
+        }
+        var year=document.getElementById(selectedyear);
+        var anim=document. createElement('a-animation');
+        anim.setAttribute('attribute','scale');
+        anim.setAttribute('to','2 2 2');
+        year.appendChild(anim);
+        previousSelectedYear = selectedyear;
+        //document.getElementById('image').appendChild(texture);
+        // When a click event occurs on a feature in the states layer, open a popup at the
+        // location of the click, with description HTML from its properties.
+        /*map.on('click', jsonfile, function (e) {
+            new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(e.features[0].properties.name)
+                .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the states layer.
+        map.on('mouseenter', jsonfile, function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', jsonfile, function () {
+            map.getCanvas().style.cursor = '';
+        });*/
+        previousyear = jsonfile;    
+    });
+    firstload +=1;
+}
+</script>
+
+</body>
+</html>
